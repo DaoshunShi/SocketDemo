@@ -75,7 +75,7 @@ public class FileTransferServer extends ServerSocket {
                 // 文件名和长度
                 String fileName = dis.readUTF();
                 long fileLength = dis.readLong();
-                File directory = new File("D:\\FTCache");
+                File directory = new File("D:\\Project\\SocketTest\\Get\\File");
                 if(!directory.exists()) {
                     directory.mkdir();
                 }

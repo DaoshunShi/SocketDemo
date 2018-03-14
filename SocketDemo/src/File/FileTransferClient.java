@@ -1,5 +1,6 @@
 package File;
 
+import java.awt.Desktop;
 import java.io.DataOutputStream;  
 import java.io.File;  
 import java.io.FileInputStream;  
@@ -15,8 +16,8 @@ import java.net.Socket;
  */  
 public class FileTransferClient extends Socket {  
   
-    private static final String SERVER_IP = "127.0.0.1"; // 服务端IP  
-    private static final int SERVER_PORT = 8899; // 服务端端口  
+    private static final String SERVER_IP = "192.168.0.6"; // 服务端IP  
+    private static final int SERVER_PORT = 8889; // 服务端端口  
   
     private Socket client;  
   
@@ -41,11 +42,15 @@ public class FileTransferClient extends Socket {
      */  
     public void sendFile() throws Exception {  
         try {  
-            File file = new File("E:\\JDK1.6中文参考手册(JDK_API_1_6_zh_CN).CHM");  
+            File file = new File("D:\\Project\\SocketTest\\Post\\File\\算法导论中文版.pdf");  
+//        	File file = new File("D:\\Project\\SocketTest\\Post\\File\\军火贩.rmvb");
+
             if(file.exists()) {  
                 fis = new FileInputStream(file);  
                 dos = new DataOutputStream(client.getOutputStream());  
   
+//                System.out.println(file.getName());
+//                System.out.println(file.length());
                 // 文件名和长度  
                 dos.writeUTF(file.getName());  
                 dos.flush();  
@@ -61,7 +66,10 @@ public class FileTransferClient extends Socket {
                     dos.write(bytes, 0, length);  
                     dos.flush();  
                     progress += length;  
-                    System.out.print("| " + (100*progress/file.length()) + "% |");  
+//                    System.out.print("| " + (100*progress/file.length()) + "% |");  
+                    if (100*progress/file.length() > 100*(progress-length)/file.length()) {
+                    	System.out.print("| " + (100*progress/file.length()) + "% |"); 
+                    }
                 }  
                 System.out.println();  
                 System.out.println("======== 文件传输成功 ========");  
