@@ -1,0 +1,15 @@
+package Greeting.Server;
+
+import java.io.IOException;
+import java.net.ServerSocket;
+
+public class GreetingServer extends Thread {
+	private ServerSocket serverSocket;
+	
+	public GreetingServer(int port) throws IOException {
+		serverSocket = new ServerSocket(port);
+		serverSocket.setSoTimeout(10000);
+		
+		
+	}
+}

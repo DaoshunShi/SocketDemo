@@ -1,0 +1,7 @@
+package Greeting.Client;
+
+public class GreetingClient {
+	public static void main(String[] args) {
+		
+	}
+}

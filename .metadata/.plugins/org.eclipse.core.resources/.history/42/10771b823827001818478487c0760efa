@@ -1,0 +1,5 @@
+package Greeting.Client;
+
+public class GreetingClient {
+
+}

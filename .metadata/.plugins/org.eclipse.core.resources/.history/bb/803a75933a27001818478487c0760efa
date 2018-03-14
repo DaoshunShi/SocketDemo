@@ -1,0 +1,29 @@
+package Greeting.Server;
+
+import java.io.IOException;
+import java.net.ServerSocket;
+
+public class GreetingServer extends Thread {
+	private ServerSocket serverSocket;
+	
+	public GreetingServer(int port) throws IOException {
+		serverSocket = new ServerSocket(port);
+		serverSocket.setSoTimeout(10000);
+	}
+	
+	public void run() {
+		while (true) {
+			try {
+				System.out.println("等待远程连接，端口号为 ： " + serverSocket.getLocalPort() + "...");
+				
+			}
+			catch (SocketTimeoutException s) {
+				System.out.println("Socket timed out!");
+				break;
+			}
+			catch (SokcketoutException s) {
+				
+			}
+		}
+	}
+}
