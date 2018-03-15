@@ -24,3 +24,18 @@ This warning can be switched off on the Team > Git > Confirmations and Warnings 
 
 !ENTRY org.eclipse.jface.text 2 0 2018-03-14 11:27:51.835
 !MESSAGE Duplicate template id: 'org.eclipse.wst.xslt.templates.xpath.round'
+
+!ENTRY org.eclipse.egit.core 4 0 2018-03-14 18:47:37.341
+!MESSAGE An exception occurred during push on URI https://github.com/DossShi/SocketDemo.git: https://github.com/DossShi/SocketDemo.git: not authorized
+!STACK 0
+org.eclipse.jgit.errors.TransportException: https://github.com/DossShi/SocketDemo.git: not authorized
+	at org.eclipse.jgit.transport.TransportHttp.connect(TransportHttp.java:534)
+	at org.eclipse.jgit.transport.TransportHttp.openPush(TransportHttp.java:420)
+	at org.eclipse.jgit.transport.PushProcess.execute(PushProcess.java:160)
+	at org.eclipse.jgit.transport.Transport.push(Transport.java:1310)
+	at org.eclipse.egit.core.op.PushOperation.run(PushOperation.java:189)
+	at org.eclipse.egit.ui.internal.push.ConfirmationPage$2.run(ConfirmationPage.java:209)
+	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:119)
+
+!ENTRY org.eclipse.equinox.security 1 0 2018-03-14 18:48:27.612
+!MESSAGE New keyring password generated. 
