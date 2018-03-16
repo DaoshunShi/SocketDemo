@@ -17,7 +17,7 @@ import java.net.Socket;
 public class FileTransferClient extends Socket {  
   
     private static final String SERVER_IP = "192.168.0.6"; // 服务端IP  
-    private static final int SERVER_PORT = 8889; // 服务端端口  
+    private static final int SERVER_PORT = 8899; // 服务端端口  
   
     private Socket client;  
   
@@ -49,8 +49,6 @@ public class FileTransferClient extends Socket {
                 fis = new FileInputStream(file);  
                 dos = new DataOutputStream(client.getOutputStream());  
   
-//                System.out.println(file.getName());
-//                System.out.println(file.length());
                 // 文件名和长度  
                 dos.writeUTF(file.getName());  
                 dos.flush();  
