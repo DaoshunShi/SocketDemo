@@ -10,8 +10,8 @@ import javax.swing.JFileChooser;
 import File.FileChooseAndTrans.FileChooseAndTrans;
 
 public class MultiTrans extends Socket{
-//	private static final String SERVER_IP = "192.168.0.7";	//服务器端IP
-	private static final String SERVER_IP = "127.0.0.1";	//服务器端IP
+	private static final String SERVER_IP = "192.168.0.7";	//服务器端IP
+//	private static final String SERVER_IP = "127.0.0.1";	//服务器端IP
 	private static final int SERVER_PORT = 1818;	//服务器端端口
 
 	private Socket client;
@@ -100,11 +100,69 @@ public class MultiTrans extends Socket{
 		}
 	}
 	
+	public void send(File file) throws Exception {
+		try {
+			if (file.exists()) {
+				fis = new FileInputStream(file);
+				dos = new DataOutputStream(client.getOutputStream());
+				
+				//文件名和长度
+				dos.writeUTF(file.getName());
+				dos.flush();
+				dos.writeLong(file.length());
+				dos.flush();
+				
+				//开始传输文件
+				System.out.println("========开始传输文件==========");
+				byte[] bytes = new byte[1024];
+				int length = 0;
+				long progress = 0;
+				while ((length = fis.read(bytes, 0, bytes.length)) != -1) {
+					dos.write(bytes, 0, length);
+					dos.flush();
+					progress += length;
+					if (100 * progress / file.length() > 100*(progress-length)/file.length()) {
+						System.out.print("| " + (100*progress/file.length() + "% |"));
+					}
+				}
+				System.out.println();
+				System.out.println("==========文件传输成功===========");
+				
+			} 
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (fis != null) 
+				fis.close();
+			if (dos != null) 
+				dos.close();
+			client.close();
+		}
+	}
+	
 	/**
 	 * 向服务器传送文件列表
 	 * @throws Exception
 	 */
 	public void sendFiles() throws Exception {
+		try {
+			File[] files = getFiles();
+			if (files.length <= 0) {
+				return ;
+			}
+			dos = new DataOutputStream(client.getOutputStream());
+			
+			dos.writeInt(files.length);
+			dos.flush();
+			for (File file : files) {
+				send(file);
+			}
+		}  catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+		}
+	}
+	public void sendFiles2() throws Exception {
 		try {
 			File[] files = getFiles();
 			if (files.length <= 0) {
