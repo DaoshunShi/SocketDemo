@@ -132,11 +132,11 @@ public class MultiTrans extends Socket{
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			if (fis != null) 
-				fis.close();
-			if (dos != null) 
-				dos.close();
-			client.close();
+//			if (fis != null) 
+//				fis.close();
+//			if (dos != null) 
+//				dos.close();
+//			client.close();
 		}
 	}
 	
@@ -150,18 +150,22 @@ public class MultiTrans extends Socket{
 			if (files.length <= 0) {
 				return ;
 			}
-			dos = new DataOutputStream(client.getOutputStream());
 			
-			dos.writeInt(files.length);
-			dos.flush();
 			for (File file : files) {
 				send(file);
 			}
 		}  catch (Exception e) {
 			e.printStackTrace();
 		} finally {
+			if (fis != null) 
+				fis.close();
+			if (dos != null) 
+				dos.close();
+			if (!client.isClosed())
+				client.close();
 		}
 	}
+	
 	public void sendFiles2() throws Exception {
 		try {
 			File[] files = getFiles();
