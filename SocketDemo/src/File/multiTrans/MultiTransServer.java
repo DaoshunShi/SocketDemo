@@ -11,7 +11,7 @@ import java.text.DecimalFormat;
 
 public class MultiTransServer extends ServerSocket{
 
-    private static final int SERVER_PORT = 1818; // 服务端端口
+    private static final int SERVER_PORT = 8818; // 服务端端口
 
     private static DecimalFormat df = null;
 

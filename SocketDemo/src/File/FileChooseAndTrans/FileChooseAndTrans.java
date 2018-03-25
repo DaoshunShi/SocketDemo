@@ -18,9 +18,9 @@ import javax.swing.JFileChooser;
  */
 public class FileChooseAndTrans extends Socket{
 	
-	private static final String SERVER_IP = "192.168.0.7";	//服务器端IP
-//	private static final String SERVER_IP = "127.0.0.1";	//服务器端IP
-	private static final int SERVER_PORT = 1818;	//服务器端端口
+//	private static final String SERVER_IP = "192.168.0.8";	//服务器端IP
+	private static final String SERVER_IP = "127.0.0.1";	//服务器端IP
+	private static final int SERVER_PORT = 8818;	//服务器端端口
 
 	private Socket client;
 	
