@@ -24,18 +24,21 @@ public class ClientListener implements ActionListener {
 	public String userName = "李强";	//用户名
 	public int type = 0;	//0表示未连接，1表示已连接
 	
+	private static String FILE_IP = "192.168.0.8";	//传输文件的目标ip
+	private static int FILE_PORT = 8818;	//传输文件的目标接口
+	private static FileInputStream fis;
+	private static DataOutputStream dos;
+	
 	Socket socket;
 	ObjectOutputStream output;	//网络套接字输出流
 	ObjectInputStream input;	//网络套接字输入流
 	
 	ClientReceiveThread recvThread;
 	
-	MainFrame mainFrame;
+	static MainFrame mainFrame;
 	
 	
-	private FileInputStream fis;
-	
-	private DataOutputStream dos;
+
 	
 	public ClientListener(MainFrame mainFrame) {
 		this.mainFrame = mainFrame;
@@ -173,11 +176,30 @@ public class ClientListener implements ActionListener {
 		
 	}
 	
-	public void send(File file) throws Exception {
-		try {
-			if (file.exists()) {
+	/**
+	 * 通过窗口选择文件（可多选）
+	 * @return 选择的文件列表
+	 */
+	public static File[] getFiles() {
+		JFileChooser chooser = new JFileChooser();
+		chooser.setMultiSelectionEnabled(true);
+		chooser.showOpenDialog(null);
+		File[] fs = chooser.getSelectedFiles();
+		return fs;
+	}
+	
+	/**
+	 * 向服务器端传输文件
+	 * @throws Exception
+	 */	
+	public static void send(File file) throws Exception {
+		
+		if (file.exists()) {
+			Socket fileClient = new Socket(FILE_IP, FILE_PORT);
+			try {
+				
 				fis = new FileInputStream(file);
-				dos = new DataOutputStream(socket.getOutputStream());
+				dos = new DataOutputStream(fileClient.getOutputStream());
 				
 				//文件名和长度
 				dos.writeUTF(file.getName());
@@ -187,6 +209,7 @@ public class ClientListener implements ActionListener {
 				
 				//开始传输文件
 				System.out.println("========开始传输文件==========");
+//				mainFrame.messageShow.append(file.getName() + " 传输开始\n");
 				byte[] bytes = new byte[1024];
 				int length = 0;
 				long progress = 0;
@@ -195,16 +218,24 @@ public class ClientListener implements ActionListener {
 					dos.flush();
 					progress += length;
 					if (100 * progress / file.length() > 100*(progress-length)/file.length()) {
-						System.out.print("| " + (100*progress/file.length() + "% |"));	
+						System.out.print("| " + (100*progress/file.length() + "% |"));
+//						mainFrame.messageShow.append("*");
 					}
 				}
 				System.out.println();
 				System.out.println("==========文件传输成功===========");
-				
-			} 
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
+				mainFrame.messageShow.append(file.getName() + " 传输成功……\n");
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				if (fis != null) 
+					fis.close();
+				if (dos != null) 
+					dos.close();
+				if (fileClient != null) {
+					fileClient.close();
+				}
+			}
 		}
 	}
 	
@@ -212,13 +243,7 @@ public class ClientListener implements ActionListener {
 	 * 向服务器传送文件列表
 	 * @throws Exception
 	 */
-	public void sendFiles() throws Exception {
-		try {
-			socket = new Socket(ip, port);
-		} catch (Exception e) {
-			mainFrame.showConfirmDialog("不能连接到指定的服务器。\n请确认连接设置是否正确。", "提示");
-			return ;
-		}
+	public static void sendFiles() throws Exception {
 		try {
 			File[] files = getFiles();
 			if (files.length <= 0) {
@@ -231,25 +256,8 @@ public class ClientListener implements ActionListener {
 		}  catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			if (fis != null) 
-				fis.close();
-			if (dos != null) 
-				dos.close();
-			if (!socket.isClosed())
-				socket.close();
+
 		}
-	}
-	
-	/**
-	 * 通过窗口选择文件（可多选）
-	 * @return 选择的文件列表
-	 */
-	public static File[] getFiles() {
-		JFileChooser chooser = new JFileChooser();
-		chooser.setMultiSelectionEnabled(true);
-		chooser.showOpenDialog(null);
-		File[] fs = chooser.getSelectedFiles();
-		return fs;
 	}
 	
 	public void SendMessage() {
