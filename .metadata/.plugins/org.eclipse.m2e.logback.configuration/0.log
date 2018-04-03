@@ -152,3 +152,5 @@
 2018-03-25 12:41:08,815 [Worker-58] INFO  c.g.t.t.d.PublishedGradleVersions - Gradle version information cache is out-of-date. Trying to update.
 2018-03-25 15:34:08,870 [Worker-9] INFO  c.g.t.t.d.PublishedGradleVersions - Gradle version information cache is up-to-date. Trying to read.
 2018-03-31 09:22:33,807 [Worker-8] INFO  c.g.t.t.d.PublishedGradleVersions - Gradle version information cache is up-to-date. Trying to read.
+2018-04-02 09:18:59,907 [Worker-10] INFO  c.g.t.t.d.PublishedGradleVersions - Gradle version information cache is out-of-date. Trying to update.
+2018-04-02 09:29:45,612 [Worker-5] INFO  c.g.t.t.d.PublishedGradleVersions - Gradle version information cache is up-to-date. Trying to read.
