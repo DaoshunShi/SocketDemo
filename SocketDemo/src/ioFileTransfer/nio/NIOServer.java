@@ -54,7 +54,7 @@ public class NIOServer{
                         client = server.accept();  
                         client.configureBlocking(false);  
                         client.register(selector, SelectionKey.OP_READ|SelectionKey.OP_WRITE);  
-                        fout = new FileOutputStream("D:\\Project\\IOTest\\aio-file\\fileTransfer\\get\\" + client.hashCode() + ".jpg");  
+                        fout = new FileOutputStream("D:\\Project\\SocketTest\\Get\\File\\" + client.hashCode() + ".jpg");  
                         ch = fout.getChannel();  
                     } else if (key.isReadable()) {  
                         client = (SocketChannel) key.channel();  

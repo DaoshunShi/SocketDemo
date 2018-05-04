@@ -7,10 +7,14 @@ import java.nio.channels.FileChannel;
 import java.nio.channels.SelectionKey;  
 import java.nio.channels.Selector;  
 import java.nio.channels.SocketChannel;  
-import java.util.Set;  
+import java.util.Set;
+
+import org.omg.CORBA.COMM_FAILURE;
+
+import ioFileTransfer.comm.Vary;  
 
 public class NIOClient {  
-    private int port = 8000;  
+//    private int port = 8000;  
       
     /* 发送数据缓冲区 */  
     private static ByteBuffer sendBuffer = ByteBuffer.allocate(1024);  
@@ -24,7 +28,7 @@ public class NIOClient {
        
     public NIOClient(){  
         try{  
-            SERVER = new InetSocketAddress("localhost", port);  
+            SERVER = new InetSocketAddress(Vary.IP, Vary.PORT);  
             init();  
         }  
         catch(Exception e){  
@@ -66,7 +70,7 @@ public class NIOClient {
         FileChannel channel = null;  
         try {  
             System.out.println("文件发送开始....");  
-            fis = new FileInputStream("D:\\Project\\IOTest\\aio-file\\fileTransfer\\post\\1.jpg");  
+            fis = new FileInputStream("D:\\Project\\SocketTest\\Post\\File\\3.jpg");  
             channel = fis.getChannel();  
             int i = 1;  
             int count = 0;  
