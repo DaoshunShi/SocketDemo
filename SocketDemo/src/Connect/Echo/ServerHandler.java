@@ -25,10 +25,12 @@ public class ServerHandler implements Runnable {
 			String str = null;
 			while ((str = br.readLine()) != null) {
 				System.out.println(str);
-				printWriter.println(str);
 				if (str.equals("bye")) {
 					break;
 				}
+				str = "·þÎñÆ÷¶Ë·µ»Ø£º" + str;
+				printWriter.println(str);
+				
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

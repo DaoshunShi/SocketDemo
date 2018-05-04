@@ -11,8 +11,8 @@ import java.net.Socket;
 public class EchoClient {
 
 	private int port = 8000;
-//	private String host = "localhost";
-	private String host = "192.168.0.6";
+	private String host = "localhost";
+//	private String host = "192.168.0.6";
 	private Socket socket;
 
 	public EchoClient() {
@@ -53,8 +53,8 @@ public class EchoClient {
 			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
 			String msg = null;
 			while ((msg = bufferedReader.readLine()) != null) {
-				// printWriter.println(msg+"打印在客户端控制台的\n\n"); //这个会被服务器读取到
-				printWriter.write(msg + "打印在客户端控制台的\n\n");
+//				printWriter.println(msg+"打印在客户端控制台的"); //这个会被服务器读取到
+				printWriter.write(msg + "打印在客户端控制台");
 				printWriter.println();
 				// System.out.println("\n"+br.readLine()+"读入socket，会被服务器读取到\n");
 				System.out.println(br.readLine()); // 这个是客户自己看到自己输入的东西！！！ 一定要理清楚

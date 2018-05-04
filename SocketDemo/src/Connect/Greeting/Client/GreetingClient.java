@@ -10,10 +10,10 @@ import java.net.Socket;
 //需使用cmd手动编译执行
 public class GreetingClient {
 	public static void main(String[] args) {
-		String serverName = args[0];
-		int port = Integer.parseInt(args[1]);
-//		String serverName = "localhost";
-//		int port = 6066;
+//		String serverName = args[0];
+//		int port = Integer.parseInt(args[1]);
+		String serverName = "localhost";
+		int port = 6066;
 		
 		try {
 			System.out.println("连接到主机 ： " + serverName + " , 端口号 ： " + port);
