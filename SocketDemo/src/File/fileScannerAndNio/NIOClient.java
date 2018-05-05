@@ -1,4 +1,4 @@
-package ioFileTransfer.nio4;
+package File.fileScannerAndNio;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -27,6 +27,10 @@ public class NIOClient {
 //	        String filePath = "D:\\Project\\SocketTest\\Post\\File\\异星觉醒.mkv";
 	        nioClient.sendFileAndName(sendChannel, filePath);  
 	   }
+	   
+	   public static void send(SocketChannel clientChannel, String filePath) throws IOException {
+		   sendFileAndName(clientChannel, filePath);
+	   }
 	  
 	    /** 
 	     * 发送文件 
@@ -34,7 +38,7 @@ public class NIOClient {
 	     * @param sendChannel 
 	     * @throws IOException 
 	     */  
-	    private void sendFileAndName(SocketChannel clientChannel, String filePath) throws IOException {  
+	    private static void sendFileAndName(SocketChannel clientChannel, String filePath) throws IOException {  
 	    	//获取文件名
 	    	 File file = new File(filePath);  
 	    	 
@@ -73,6 +77,8 @@ public class NIOClient {
 	    private SocketChannel createSocketChannel() throws IOException {  
 	        SocketChannel sendChannel = SocketChannel.open();  
 	        sendChannel.connect(new InetSocketAddress(Vary.IP, Vary.PORT));  
+	        //如果为 true，则此通道将被置于阻塞模式；如果为 false，则此通道将被置于非阻塞模式  
+//	        sendChannel.configureBlocking(false);//开启非阻塞模式  
 	        return sendChannel;  
 	    }  
 	  
@@ -82,7 +88,7 @@ public class NIOClient {
 	     * @param sendChannel 
 	     * @throws IOException 
 	     */  
-	    private void sendFile(SocketChannel sendChannel, String filePath) throws IOException {  
+	    private static void sendFile(SocketChannel sendChannel, String filePath) throws IOException {  
 	        // 发送文件流  
 	        Path path = Paths.get(filePath);  
 	        FileChannel fileChannel = FileChannel.open(path);  
