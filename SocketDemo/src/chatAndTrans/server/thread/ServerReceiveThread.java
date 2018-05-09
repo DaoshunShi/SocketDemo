@@ -1,9 +1,12 @@
 package chatAndTrans.server.thread;
 
+import java.io.File;
+
 import javax.swing.*;
 
 import chatAndTrans.server.entity.Node;
 import chatAndTrans.server.entity.UserLinkList;
+import chatAndTrans.server.text.TextTools;
 
 /**
  * 服务器端接受消息的类
@@ -16,6 +19,8 @@ public class ServerReceiveThread extends Thread {
 	JComboBox combobox;
 	Node client;
 	UserLinkList userLinkList;	//用户链表
+	TextTools textTools;	//	文件读写
+	String basePath = "D:\\Project\\SocketTest\\text\\output\\";	//	数据文件存放基路径
 	
 	public boolean isStop;
 	
@@ -74,7 +79,34 @@ public class ServerReceiveThread extends Thread {
 						}
 					} 
 						
-				} else if (type.equalsIgnoreCase("用户下线") ) {
+				} else if (type.equalsIgnoreCase("传感数据")) {
+					String toSomebody = (String)client.getInput().readObject();
+					String status = (String) client.getInput().readObject();
+					String action = (String) client.getInput().readObject();
+					String message = (String) client.getInput().readObject();
+					
+					String msg = client.getUsername() + " [传感数据] " + 
+							message + "\n";
+					
+					//将传感数据写入txt文件
+					boolean writeRes = false;
+					while(!writeRes) {
+						writeRes = writeData(basePath + client.getUsername() + ".txt", message);
+					}
+					
+					textarea.append(msg);
+					
+					try {
+						client.getOutput().writeObject("聊天信息");
+						client.getOutput().flush();
+						client.getOutput().writeObject(msg);
+						client.getOutput().flush();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+						
+				}
+				else if (type.equalsIgnoreCase("用户下线") ) {
 					Node node = userLinkList.findUser(client.getUsername()) ;
 					userLinkList.delUser(node);
 					
@@ -176,6 +208,17 @@ public class ServerReceiveThread extends Thread {
 			}
 			i++;
 		}
+	}
+	
+	public boolean writeData(String filePath, String msg) throws Exception {
+		try {
+			File file = textTools.checkExist(filePath);
+			textTools.appendInfoToFile(filePath, msg);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+		
 	}
 	
 }

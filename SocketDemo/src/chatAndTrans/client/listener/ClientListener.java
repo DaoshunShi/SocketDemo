@@ -3,12 +3,14 @@ package chatAndTrans.client.listener;
 import java.awt.event.*;
 import java.io.*;
 import java.net.Socket;
+import java.util.List;
 
 import javax.swing.JFileChooser;
 
 import chatAndTrans.client.frame.ConnectConf;
 import chatAndTrans.client.frame.MainFrame;
 import chatAndTrans.client.frame.UserConf;
+import chatAndTrans.client.text.TextTools;
 import chatAndTrans.client.thread.ClientReceiveThread;
 import chatAndTrans.server.frame.Help;
 
@@ -24,10 +26,14 @@ public class ClientListener implements ActionListener {
 	public String userName = "李强";	//用户名
 	public int type = 0;	//0表示未连接，1表示已连接
 	
-	private static String FILE_IP = "192.168.0.8";	//传输文件的目标ip
+//	private static String FILE_IP = "192.168.0.8";	//传输文件的目标ip
+	private static String FILE_IP = "127.0.0.1";	//传输文件的目标ip
 	private static int FILE_PORT = 8818;	//传输文件的目标接口
 	private static FileInputStream fis;
 	private static DataOutputStream dos;
+	
+	//数据文件读取基路径
+	String basePath = "D:\\Project\\SocketTest\\text\\input\\";
 	
 	Socket socket;
 	ObjectOutputStream output;	//网络套接字输出流
@@ -62,6 +68,7 @@ public class ClientListener implements ActionListener {
 		mainFrame.clientMessage.addActionListener(this);
 		mainFrame.clientMessageButton.addActionListener(this);
 		mainFrame.clientFileButton.addActionListener(this);
+		mainFrame.clientDataButton.addActionListener(this);
 	}
 	
 	@Override
@@ -89,11 +96,19 @@ public class ClientListener implements ActionListener {
 			mainFrame.clientMessage.setText("");
 		} else if (obj == mainFrame.clientFileButton ) {
 			try {
-				sendFiles();
+				sendFiles();	//	发送文件
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
-		}else if (obj == mainFrame.exitButton || obj == mainFrame.exitItem) { 	//退出
+		} else if (obj == mainFrame.clientDataButton) {
+			try {
+				sendData();
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}	//	发送数据流
+			mainFrame.clientMessage.setText("");
+		} else if (obj == mainFrame.exitButton || obj == mainFrame.exitItem) { 	//退出
 			int j = mainFrame.showConfirmDialog("真的要退出吗？", "退出");
 			
 			if (j == 1) {
@@ -139,6 +154,8 @@ public class ClientListener implements ActionListener {
 			mainFrame.clientMessage.setEnabled(true);
 			mainFrame.messageShow.append("连接服务器 " + ip + ":" + port + " 成功……\n");
 			type = 1;	//标志位设为已连接
+			
+//			sendDataAuto();	//	发送传感数据
 		} catch (Exception e) {
 //			e.printStackTrace();
 			return;
@@ -284,6 +301,76 @@ public class ClientListener implements ActionListener {
 			output.writeObject(action);
 			output.flush();
 			output.writeObject(message);
+			output.flush();
+		} catch (Exception e) {
+//			e.printStackTrace();
+		}
+	}
+	
+	public void sendData() throws InterruptedException {
+		sendDataAuto();
+		
+		String toSomebody = mainFrame.combobox.getSelectedItem().toString();
+		String status = "";
+		if (mainFrame.checkbox.isSelected()) {
+			status = "悄悄话";
+		}
+		
+		String action = mainFrame.actionlist.getSelectedItem().toString();
+		String message = mainFrame.clientMessage.getText();
+		
+		if (socket.isClosed()) {
+			return ;
+		}
+		
+		try {
+			output.writeObject("传感数据");
+			output.flush();
+			output.writeObject(toSomebody);
+			output.flush();
+			output.writeObject(status);
+			output.flush();
+			output.writeObject(action);
+			output.flush();
+			output.writeObject(message);
+			output.flush();
+		} catch (Exception e) {
+//			e.printStackTrace();
+		}
+	}
+	
+	public void sendDataAuto() throws InterruptedException {
+		List<String> list = TextTools.readInfoFromFile(basePath + userName + ".txt");
+		for (String str : list) {
+			sendDataMsg(str);
+			Thread.sleep(1000);
+		}
+	}
+	
+	public void sendDataMsg(String msg) {
+		String toSomebody = mainFrame.combobox.getSelectedItem().toString();
+		String status = "";
+		if (mainFrame.checkbox.isSelected()) {
+			status = "悄悄话";
+		}
+		
+		String action = mainFrame.actionlist.getSelectedItem().toString();
+		String message = mainFrame.clientMessage.getText();
+		
+		if (socket.isClosed()) {
+			return ;
+		}
+		
+		try {
+			output.writeObject("传感数据");
+			output.flush();
+			output.writeObject(toSomebody);
+			output.flush();
+			output.writeObject(status);
+			output.flush();
+			output.writeObject(action);
+			output.flush();
+			output.writeObject(msg);
 			output.flush();
 		} catch (Exception e) {
 //			e.printStackTrace();

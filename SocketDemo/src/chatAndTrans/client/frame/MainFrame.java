@@ -28,6 +28,7 @@ public class MainFrame extends JFrame {
 	public JComboBox actionlist;	//表情选择
 	public JButton clientFileButton;	//发送文件
 	public JButton clientPictureButton;	//发送图片
+	public JButton clientDataButton;	//	发送传感数据
 	public JButton clientMessageButton;	//发送消息
 	public JTextField showStatus;	//显示用户连接状态
 	
@@ -155,8 +156,10 @@ public class MainFrame extends JFrame {
 		clientFileButton = new JButton();
 		clientFileButton.setText("发送文件");
 		
-		clientPictureButton = new JButton();
-		clientPictureButton.setText("发送图片");
+//		clientPictureButton = new JButton();
+//		clientPictureButton.setText("发送图片");
+		clientDataButton = new JButton();
+		clientDataButton.setText("发送传感数据");
 		
 		sendToLabel = new JLabel("发送至：");
 		express = new JLabel("       表情：   ");
@@ -192,8 +195,10 @@ public class MainFrame extends JFrame {
 		girdBagCon.gridy = 0;
 		girdBagCon.gridwidth = 1;
 		girdBagCon.gridheight = 1;
-		girdBag.setConstraints(clientPictureButton, girdBagCon);
-		downPanel.add(clientPictureButton);
+//		girdBag.setConstraints(clientPictureButton, girdBagCon);
+//		downPanel.add(clientPictureButton);
+		girdBag.setConstraints(clientDataButton, girdBagCon);
+		downPanel.add(clientDataButton);
 		
 		girdBagCon = new GridBagConstraints();
 		girdBagCon.gridx = 4;
