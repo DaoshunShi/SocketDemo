@@ -1,4 +1,4 @@
-package chatAndTrans.client.listener;
+package graduationProject.client.listener;
 
 import java.awt.event.*;
 import java.io.*;
@@ -7,12 +7,12 @@ import java.util.List;
 
 import javax.swing.JFileChooser;
 
-import chatAndTrans.client.frame.ConnectConf;
-import chatAndTrans.client.frame.MainFrame;
-import chatAndTrans.client.frame.UserConf;
-import chatAndTrans.client.text.TextTools;
-import chatAndTrans.client.thread.ClientReceiveThread;
-import chatAndTrans.server.frame.Help;
+import graduationProject.client.frame.ConnectConf;
+import graduationProject.client.frame.MainFrame;
+import graduationProject.client.frame.UserConf;
+import graduationProject.client.text.TextTools;
+import graduationProject.client.thread.ClientReceiveThread;
+import graduationProject.server.frame.Help;
 
 /**
  * ¿Í»§¶Ë¼àÌýÀà
